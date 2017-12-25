@@ -44,14 +44,17 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
-terminal LPAREN, RPAREN;
+terminal LPAREN, RPAREN, LBRACE, RBRACE,DEF,CALL,PROC;
+// *** added symbols - N.C.
 
 // arithmetic operators
 terminal PLUS, MINUS, MUL, DIV, MOD, ASSIGN;
 
-terminal LET, LBRACE, RBRACE, COMMA, IN;
+terminal LET, LBRACE, RBRACE, COMMA, IN, READ, PRINTLN, CASE, LAZY;
 // *** add other token declarations for LET special form here
 
+//logic operators
+terminal IF, THEN, ELSE;
 
 // terminals with values
 terminal Integer INTEGER;
@@ -78,7 +81,7 @@ non terminal empty;
 program ::= stmtList:s {: RESULT = new ArithProgram(s); :};
 
 stmtList ::= stmtList:lst stmt:s {:
-		lst.add(s); 
+		lst.add(s);
 		RESULT = lst;
 		:} |
 	     stmt:s {:
