@@ -4,9 +4,9 @@ import java.util.*;
 
 /* Preliminaries to set up and use the scanner.  */
 parser code {:
-		Lexer lexer;
+		SMPLLexer lexer;
 
-		public ArithParser(Lexer l) {
+		public SMPLParser(SMPLLexer l) {
 		    // As of CUP v0.11, need to pass Lexer to superclass
 		    super(l);
 		    lexer = l;
@@ -44,21 +44,45 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
+<<<<<<< HEAD
 terminal LPAREN, RPAREN, LBRACE, RBRACE,DEF,CALL,PROC;
 // *** added symbols - N.C.
+=======
+terminal LPAREN, RPAREN, LBRACE, RBRACE, LSQUARE, RSQUARE, COMMA, COLON, AT;
+>>>>>>> b8b457a0630d0d8d2b1f9f2f7cd21cc2b5c68334
 
-// arithmetic operators
-terminal PLUS, MINUS, MUL, DIV, MOD, ASSIGN;
+// arithmetic operators and relational operators
+terminal PLUS, MINUS, MUL, DIV, MOD, EQUAL, LT, GT, LE, GE, NE;
 
+<<<<<<< HEAD
 terminal LET, LBRACE, RBRACE, COMMA, IN, READ, PRINTLN, CASE, LAZY;
 // *** add other token declarations for LET special form here
+=======
+// binary operators
+terminal AMP, PIPE, TILDE;
+
+// logical operators
+terminal AND, OR, NOT;
+
+// boolean constants and nil
+terminal TRUE, FALSE, NIL;
+
+// keywords
+terminal IF, DEF, LET;
+terminal PROC, CALL, READ, ELSE, LAZY, CASE, PRINT, PRINTLN, READINT;
+>>>>>>> b8b457a0630d0d8d2b1f9f2f7cd21cc2b5c68334
 
 //logic operators ***
 terminal IF, THEN, ELSE;
 
 // terminals with values
+terminal String BIN;
+terminal String HEX;
+terminal Double FLOAT;
+terminal String STRING;
 terminal Integer INTEGER;
 terminal String VARIABLE;
+terminal Character CHARACTER;
 
 /* Non terminals */
 non terminal ArithProgram program;

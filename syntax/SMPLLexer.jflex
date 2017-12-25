@@ -57,6 +57,9 @@ float = ({digit}*\.{digit}+) | ({digit}+\.{digit}*)
 alphanum = {alpha}|{num}
 charset = {alphanum}|{special}
 
+char = \'[a-zA-Z]\'
+string = \"(.*?)\"
+
 bin = #b[01]+
 hex = #x[0-9a-fA-F]+
 
@@ -139,7 +142,7 @@ hex = #x[0-9a-fA-F]+
 
 <YYINITIAL> {float} {
          // FLOATING POINT NUMBER
-         return mkSymbol(sym.REAL,
+         return mkSymbol(sym.FLOAT,
          new Double(yytext()));
          }
 
@@ -147,6 +150,16 @@ hex = #x[0-9a-fA-F]+
 	       // VARIABLE
 	       return new Symbol(sym.VARIABLE, yytext());
 	       }
+
+<YYINITIAL> {char} {
+	       // CHARACTER
+				 return new Symbol(sym.CHARACTER, yytext());
+			   }
+
+<YYINITIAL> {string} {
+	       // STRING
+				 return new Symbol(sym.STRING, yytext());
+			   }
 
 <YYINITIAL> {bin} {
 	       // BINARY
