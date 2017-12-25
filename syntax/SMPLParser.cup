@@ -4,9 +4,9 @@ import java.util.*;
 
 /* Preliminaries to set up and use the scanner.  */
 parser code {:
-		Lexer lexer;
+		SMPLLexer lexer;
 
-		public ArithParser(Lexer l) {
+		public SMPLParser(SMPLLexer l) {
 		    // As of CUP v0.11, need to pass Lexer to superclass
 		    super(l);
 		    lexer = l;
@@ -44,18 +44,33 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
-terminal LPAREN, RPAREN;
+terminal LPAREN, RPAREN, LBRACE, RBRACE, LSQUARE, RSQUARE, COMMA, COLON, AT;
 
-// arithmetic operators
-terminal PLUS, MINUS, MUL, DIV, MOD, ASSIGN;
+// arithmetic operators and relational operators
+terminal PLUS, MINUS, MUL, DIV, MOD, EQUAL, LT, GT, LE, GE, NE;
 
-terminal LET, LBRACE, RBRACE, COMMA, IN;
-// *** add other token declarations for LET special form here
+// binary operators
+terminal AMP, PIPE, TILDE;
+
+// logical operators
+terminal AND, OR, NOT;
+
+// boolean constants and nil
+terminal TRUE, FALSE, NIL;
+
+// keywords
+terminal IF, DEF, LET;
+terminal PROC, CALL, READ, ELSE, LAZY, CASE, PRINT, PRINTLN, READINT;
 
 
 // terminals with values
+terminal String BIN;
+terminal String HEX;
+terminal Double FLOAT;
+terminal String STRING;
 terminal Integer INTEGER;
 terminal String VARIABLE;
+terminal Character CHARACTER;
 
 /* Non terminals */
 non terminal ArithProgram program;
@@ -78,7 +93,7 @@ non terminal empty;
 program ::= stmtList:s {: RESULT = new ArithProgram(s); :};
 
 stmtList ::= stmtList:lst stmt:s {:
-		lst.add(s); 
+		lst.add(s);
 		RESULT = lst;
 		:} |
 	     stmt:s {:
