@@ -57,6 +57,9 @@ float = ({digit}*\.{digit}+) | ({digit}+\.{digit}*)
 alphanum = {alpha}|{num}
 charset = {alphanum}|{special}
 
+bin = #b[01]+
+hex = #x[0-9a-fA-F]+
+
 %%
 
 <YYINITIAL>	{nl}	{
@@ -144,3 +147,13 @@ charset = {alphanum}|{special}
 	       // VARIABLE
 	       return new Symbol(sym.VARIABLE, yytext());
 	       }
+
+<YYINITIAL> {bin} {
+	       // BINARY
+				 return new Symbol(sym.BIN, yytext());
+         }
+
+<YYINITIAL> {hex} {
+				 // HEXADECIMAL
+				 return new Symbol(sym.HEX, yytext());
+				 }
