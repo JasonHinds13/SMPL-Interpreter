@@ -50,7 +50,9 @@ alpha = [a-zA-Z_]
 
 num = [0-9]
 
-special = [-?+]
+special = [+-?]
+
+float = ({digit}*\.{digit}+) | ({digit}+\.{digit}*)
 
 alphanum = {alpha}|{num}
 charset = {alphanum}|{special}
@@ -64,6 +66,15 @@ charset = {alphanum}|{special}
 <YYINITIAL>	{ws}	{
                         //skip whitespace
 			}
+
+<YYINITIAL>	"//".*{nl}	{
+      			           // skip line comments
+      }
+
+<YYINITIAL>	"/*".*{nl}."*/"	{
+            			     // skip block comments
+      }
+
 <YYINITIAL>	"+"	{return new Symbol(sym.PLUS);}
 <YYINITIAL>	"-"	{return new Symbol(sym.MINUS);}
 <YYINITIAL>	"*"	{return new Symbol(sym.MUL);}
@@ -72,11 +83,11 @@ charset = {alphanum}|{special}
 
 <YYINITIAL>	"="	{return new Symbol(sym.EQUAL);}
 
-<YYINITIAL> "<" {return new Symbol(sym.COMMA);}
-<YYINITIAL> ">" {return new Symbol(sym.COMMA);}
-<YYINITIAL> "<=" {return new Symbol(sym.COMMA);}
-<YYINITIAL> ">=" {return new Symbol(sym.COMMA);}
-<YYINITIAL> "!=" {return new Symbol(sym.COMMA);}
+<YYINITIAL> "<" {return new Symbol(sym.LT);}
+<YYINITIAL> ">" {return new Symbol(sym.GT);}
+<YYINITIAL> "<=" {return new Symbol(sym.LE);}
+<YYINITIAL> ">=" {return new Symbol(sym.GE);}
+<YYINITIAL> "!=" {return new Symbol(sym.NE);}
 
 <YYINITIAL> "&" {return new Symbol(sym.AMP);}
 <YYINITIAL> "|" {return new Symbol(sym.PIPE);}
@@ -100,6 +111,10 @@ charset = {alphanum}|{special}
 <YYINITIAL> ":" {return new Symbol(sym.COLON);}
 <YYINITIAL> "," {return new Symbol(sym.COMMA);}
 
+<YYINITIAL> "#t" { return new Symbol(sym.TRUE);}
+<YYINITIAL> "#f" { return new Symbol(sym.FALSE);}
+<YYINITIAL> "#e" { return new Symbol(sym.NIL);}
+
 <YYINITIAL> "proc" {return new Symbol(sym.PROC);}
 <YYINITIAL> "call" {return new Symbol(sym.CALL);}
 <YYINITIAL> "def" {return new Symbol(sym.DEF);}
@@ -118,6 +133,12 @@ charset = {alphanum}|{special}
 	       return new Symbol(sym.INTEGER,
 				 new Integer(yytext()));
 	       }
+
+<YYINITIAL> {float} {
+         // FLOATING POINT NUMBER
+         return mkSymbol(sym.REAL,
+         new Double(yytext()));
+         }
 
 <YYINITIAL>    {alpha}{charset}* {
 	       // VARIABLE
