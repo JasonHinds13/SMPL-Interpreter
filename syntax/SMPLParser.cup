@@ -53,7 +53,7 @@ terminal PLUS, MINUS, MUL, DIV, MOD, ASSIGN;
 terminal LET, LBRACE, RBRACE, COMMA, IN, READ, PRINTLN, CASE, LAZY;
 // *** add other token declarations for LET special form here
 
-//logic operators
+//logic operators ***
 terminal IF, THEN, ELSE;
 
 // terminals with values
