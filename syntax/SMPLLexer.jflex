@@ -86,6 +86,7 @@ hex = #x[0-9a-fA-F]+
 <YYINITIAL>	"*"	{return new Symbol(sym.MUL);}
 <YYINITIAL>	"/"	{return new Symbol(sym.DIV);}
 <YYINITIAL>	"%"	{return new Symbol(sym.MOD);}
+<YYINITIAL> "^" {return new Symbol(sym.HAT);}
 
 <YYINITIAL>	"="	{return new Symbol(sym.EQUAL);}
 
