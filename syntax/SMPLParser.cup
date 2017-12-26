@@ -44,20 +44,14 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
-<<<<<<< HEAD
-terminal LPAREN, RPAREN, LBRACE, RBRACE,DEF,CALL,PROC;
-// *** added symbols - N.C.
 =======
+terminal ASSIGN;
 terminal LPAREN, RPAREN, LBRACE, RBRACE, LSQUARE, RSQUARE, COMMA, COLON, AT;
 >>>>>>> b8b457a0630d0d8d2b1f9f2f7cd21cc2b5c68334
 
 // arithmetic operators and relational operators
 terminal PLUS, MINUS, MUL, DIV, MOD, HAT, EQUAL, LT, GT, LE, GE, NE;
 
-<<<<<<< HEAD
-terminal LET, LBRACE, RBRACE, COMMA, IN, READ, PRINTLN, CASE, LAZY;
-// *** add other token declarations for LET special form here
-=======
 // binary operators
 terminal AMP, PIPE, TILDE;
 
@@ -70,7 +64,6 @@ terminal TRUE, FALSE, NIL;
 // keywords
 terminal IF, DEF, LET;
 terminal PROC, CALL, READ, ELSE, LAZY, CASE, PRINT, PRINTLN, READINT;
->>>>>>> b8b457a0630d0d8d2b1f9f2f7cd21cc2b5c68334
 
 //logic operators ***
 terminal IF, THEN, ELSE;
@@ -103,7 +96,7 @@ non terminal empty;
 
 /* Grammar rules */
 
-program ::= stmtList:s {: RESULT = new ArithProgram(s); :};
+program ::= stmtList:s {: RESULT = new SMPLProgram(s); :};
 
 stmtList ::= stmtList:lst stmt:s {:
 		lst.add(s);
@@ -115,6 +108,7 @@ stmtList ::= stmtList:lst stmt:s {:
 
 stmt ::= definition:d {: RESULT = d; :} |
 	 letStmt:l {: RESULT = l; :} |
+	 definition:d {: RESULT = d :} |
 	 expression:e {: RESULT = new Statement(e); :};
 
 /* ************* Let statement production rules ***************** */
@@ -134,7 +128,6 @@ bindings ::= binding:b bindingsAux:bl {:
 		empty {: RESULT = new ArrayList(); :};
 
 bindingsAux ::= COMMA binding:b bindingsAux:bl {:
-	     	       /* Fill this in */
 	     	       bl.add(b);
 	     	       RESULT = bl;
 		:} |
@@ -142,7 +135,7 @@ bindingsAux ::= COMMA binding:b bindingsAux:bl {:
 
 /* ************* End of Let statement production rules ***************** */
 
-definition ::= VARIABLE:v EQUAL expression:e {:
+definition ::= VARIABLE:v expression:e {:
 		   RESULT = new StmtDefinition(v, e);
 		:};
 
