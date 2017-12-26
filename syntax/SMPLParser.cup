@@ -73,7 +73,7 @@ terminal String VARIABLE;
 terminal Character CHARACTER;
 
 /* Non terminals */
-non terminal ArithProgram program;
+non terminal SMPLProgram program;
 non terminal StmtSequence stmtList;
 non terminal Statement stmt;
 non terminal StmtDefinition definition;
@@ -106,11 +106,11 @@ stmt ::= definition:d {: RESULT = d; :} |
 
 /* ************* Let statement production rules ***************** */
 
-letStmt ::= LET bindings:bs LBRACE stmtList:sl RBRACE {:
+letStmt ::= LET bindings:bs IN LBRACE stmtList:sl RBRACE {:
 			RESULT = new StmtLet(bs, sl);
 		:};
 
-binding ::= VARIABLE:v EQUAL expression:e {:
+binding ::= VARIABLE:v ASSIGN expression:e {:
 		RESULT = new Binding(v, e);
 	:};
 
@@ -129,7 +129,7 @@ bindingsAux ::= COMMA binding:b bindingsAux:bl {:
 
 /* ************* End of Let statement production rules ***************** */
 
-definition ::= VARIABLE:v EQUAL expression:e {:
+definition ::= VARIABLE:v ASSIGN expression:e {:
 		   RESULT = new StmtDefinition(v, e);
 		:};
 

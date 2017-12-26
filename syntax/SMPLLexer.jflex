@@ -9,7 +9,7 @@ import java_cup.runtime.*;
 %cup
 %public
 
-%class SMPLLexer
+%class Lexer
 
 %type java_cup.runtime.Symbol
 
@@ -52,7 +52,7 @@ num = [0-9]
 
 special = [+-?]
 
-float = ({num}*\.{num}+) | ({num}+\.{num}*)
+float = ({digit}*\.{digit}+) | ({digit}+\.{digit}*)
 
 alphanum = {alpha}|{num}
 charset = {alphanum}|{special}
