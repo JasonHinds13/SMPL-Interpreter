@@ -9,7 +9,7 @@ import java_cup.runtime.*;
 %cup
 %public
 
-%class Lexer
+%class SMPLLexer
 
 %type java_cup.runtime.Symbol
 
@@ -52,10 +52,13 @@ num = [0-9]
 
 special = [+-?]
 
-float = ({digit}*\.{digit}+) | ({digit}+\.{digit}*)
+float = ({num}*\.{num}+) | ({num}+\.{num}*)
 
 alphanum = {alpha}|{num}
 charset = {alphanum}|{special}
+
+char = \'[a-zA-Z]\'
+string = \"(.*?)\"
 
 bin = #b[01]+
 hex = #x[0-9a-fA-F]+
@@ -83,8 +86,10 @@ hex = #x[0-9a-fA-F]+
 <YYINITIAL>	"*"	{return new Symbol(sym.MUL);}
 <YYINITIAL>	"/"	{return new Symbol(sym.DIV);}
 <YYINITIAL>	"%"	{return new Symbol(sym.MOD);}
+<YYINITIAL> "^" {return new Symbol(sym.HAT);}
 
 <YYINITIAL>	"="	{return new Symbol(sym.EQUAL);}
+<YYINITIAL> ":=" {return new Symbol(sym.ASSIGN);}
 
 <YYINITIAL> "<" {return new Symbol(sym.LT);}
 <YYINITIAL> ">" {return new Symbol(sym.GT);}
@@ -139,7 +144,7 @@ hex = #x[0-9a-fA-F]+
 
 <YYINITIAL> {float} {
          // FLOATING POINT NUMBER
-         return mkSymbol(sym.REAL,
+         return mkSymbol(sym.FLOAT,
          new Double(yytext()));
          }
 
@@ -147,6 +152,16 @@ hex = #x[0-9a-fA-F]+
 	       // VARIABLE
 	       return new Symbol(sym.VARIABLE, yytext());
 	       }
+
+<YYINITIAL> {char} {
+	       // CHARACTER
+				 return new Symbol(sym.CHARACTER, yytext());
+			   }
+
+<YYINITIAL> {string} {
+	       // STRING
+				 return new Symbol(sym.STRING, yytext());
+			   }
 
 <YYINITIAL> {bin} {
 	       // BINARY

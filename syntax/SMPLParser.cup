@@ -4,9 +4,9 @@ import java.util.*;
 
 /* Preliminaries to set up and use the scanner.  */
 parser code {:
-		Lexer lexer;
+		SMPLLexer lexer;
 
-		public ArithParser(Lexer l) {
+		public SMPLParser(SMPLLexer l) {
 		    // As of CUP v0.11, need to pass Lexer to superclass
 		    super(l);
 		    lexer = l;
@@ -44,24 +44,49 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
+<<<<<<< HEAD
 terminal LPAREN, RPAREN, LBRACE, RBRACE,DEF,CALL,PROC;
 // *** added symbols - N.C.
+=======
+terminal ASSIGN;
+terminal LPAREN, RPAREN, LBRACE, RBRACE, LSQUARE, RSQUARE, COMMA, COLON, AT;
+>>>>>>> 9957a72de1c2beb063d98391d59a9a56feb0c546
 
-// arithmetic operators
-terminal PLUS, MINUS, MUL, DIV, MOD, ASSIGN;
+// arithmetic operators and relational operators
+terminal PLUS, MINUS, MUL, DIV, MOD, HAT, EQUAL, LT, GT, LE, GE, NE;
 
+<<<<<<< HEAD
 terminal LET, LBRACE, RBRACE, COMMA, IN, READ, PRINTLN, CASE, LAZY;
 // *** add other token declarations for LET special form here
+=======
+// binary operators
+terminal AMP, PIPE, TILDE;
+
+// logical operators
+terminal AND, OR, NOT;
+
+// boolean constants and nil
+terminal TRUE, FALSE, NIL;
+
+// keywords
+terminal IF, DEF, LET;
+terminal PROC, CALL, READ, ELSE, LAZY, CASE, PRINT, PRINTLN, READINT;
+>>>>>>> 9957a72de1c2beb063d98391d59a9a56feb0c546
 
 //logic operators ***
 terminal IF, THEN, ELSE;
 
 // terminals with values
+terminal String BIN;
+terminal String HEX;
+terminal Double FLOAT;
+terminal String STRING;
 terminal Integer INTEGER;
 terminal String VARIABLE;
+terminal Character CHARACTER;
 
 /* Non terminals */
-non terminal ArithProgram program;
+non terminal SMPLProgram program;
 non terminal StmtSequence stmtList;
 non terminal Statement stmt;
 non terminal StmtDefinition definition;
@@ -74,11 +99,12 @@ non terminal Binding binding;
 non terminal Exp expression;
 non terminal Exp term;
 non terminal Exp factor;
+non terminal Exp power;
 non terminal empty;
 
 /* Grammar rules */
 
-program ::= stmtList:s {: RESULT = new ArithProgram(s); :};
+program ::= stmtList:s {: RESULT = new SMPLProgram(s); :};
 
 stmtList ::= stmtList:lst stmt:s {:
 		lst.add(s);
@@ -90,15 +116,16 @@ stmtList ::= stmtList:lst stmt:s {:
 
 stmt ::= definition:d {: RESULT = d; :} |
 	 letStmt:l {: RESULT = l; :} |
+	 definition:d {: RESULT = d :} |
 	 expression:e {: RESULT = new Statement(e); :};
 
 /* ************* Let statement production rules ***************** */
 
-letStmt ::= LET bindings:bs IN LBRACE stmtList:sl RBRACE {:
+letStmt ::= LET bindings:bs LBRACE stmtList:sl RBRACE {:
 			RESULT = new StmtLet(bs, sl);
 		:};
 
-binding ::= VARIABLE:v ASSIGN expression:e {:
+binding ::= VARIABLE:v EQUAL expression:e {:
 		RESULT = new Binding(v, e);
 	:};
 
@@ -109,7 +136,6 @@ bindings ::= binding:b bindingsAux:bl {:
 		empty {: RESULT = new ArrayList(); :};
 
 bindingsAux ::= COMMA binding:b bindingsAux:bl {:
-	     	       /* Fill this in */
 	     	       bl.add(b);
 	     	       RESULT = bl;
 		:} |
@@ -117,7 +143,7 @@ bindingsAux ::= COMMA binding:b bindingsAux:bl {:
 
 /* ************* End of Let statement production rules ***************** */
 
-definition ::= VARIABLE:v ASSIGN expression:e {:
+definition ::= VARIABLE:v expression:e {:
 		   RESULT = new StmtDefinition(v, e);
 		:};
 
@@ -133,7 +159,11 @@ term ::= term:t MUL factor:f {:
 		RESULT = new ExpDiv(t, f); :} |
 	 term:t MOD factor:f {:
 		RESULT = new ExpMod(t, f); :} |
-	 factor:f {: RESULT = f; :};
+	 factor:f {: RESULT = f; :} |
+	 power:p {: RESULT = p :};
+
+power ::= factor:f HAT power:p {: RESULT = new ExpExpt(f, p); :} |
+          factor:f {: RESULT = f; :};
 
 factor ::= INTEGER:ilit {: RESULT = new ExpLit(ilit); :} |
 	   VARIABLE:var {: RESULT = new ExpVar(var); :} |
