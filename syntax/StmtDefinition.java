@@ -1,4 +1,4 @@
-
+package syntax;
 public class StmtDefinition extends Statement {
 
     String var;

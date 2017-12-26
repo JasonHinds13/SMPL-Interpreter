@@ -1,3 +1,4 @@
+package syntax;
 public class ExpLit extends Exp {
 
   int val;
