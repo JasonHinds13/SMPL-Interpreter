@@ -48,7 +48,7 @@ terminal ASSIGN;
 terminal LPAREN, RPAREN, LBRACE, RBRACE, LSQUARE, RSQUARE, COMMA, COLON, AT;
 
 // arithmetic operators and relational operators
-terminal PLUS, MINUS, MUL, DIV, MOD, HAT, EQUAL, LT, GT, LE, GE, NE;
+terminal PLUS, MINUS, MUL, DIV, MOD, HAT,IFEQV,IFEQUAL, EQUAL, LT, GT, LE, GE, NE;
 
 // binary operators
 terminal AMP, PIPE, TILDE;
