@@ -44,21 +44,12 @@ scan with {:
 /* Terminals (tokens returned by the scanner). */
 
 // special symbols
-<<<<<<< HEAD
-terminal LPAREN, RPAREN, LBRACE, RBRACE,DEF,CALL,PROC;
-// *** added symbols - N.C.
-=======
 terminal ASSIGN;
 terminal LPAREN, RPAREN, LBRACE, RBRACE, LSQUARE, RSQUARE, COMMA, COLON, AT;
->>>>>>> 9957a72de1c2beb063d98391d59a9a56feb0c546
 
 // arithmetic operators and relational operators
 terminal PLUS, MINUS, MUL, DIV, MOD, HAT, EQUAL, LT, GT, LE, GE, NE;
 
-<<<<<<< HEAD
-terminal LET, LBRACE, RBRACE, COMMA, IN, READ, PRINTLN, CASE, LAZY;
-// *** add other token declarations for LET special form here
-=======
 // binary operators
 terminal AMP, PIPE, TILDE;
 
@@ -71,10 +62,7 @@ terminal TRUE, FALSE, NIL;
 // keywords
 terminal IF, DEF, LET;
 terminal PROC, CALL, READ, ELSE, LAZY, CASE, PRINT, PRINTLN, READINT;
->>>>>>> 9957a72de1c2beb063d98391d59a9a56feb0c546
 
-//logic operators ***
-terminal IF, THEN, ELSE;
 
 // terminals with values
 terminal String BIN;
