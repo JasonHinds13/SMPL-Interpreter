@@ -1,3 +1,4 @@
+package syntax;
 public class Binding {
 
     String var;

@@ -1,3 +1,4 @@
+package syntax;
 public class Statement extends Exp {
 
     Exp exp;

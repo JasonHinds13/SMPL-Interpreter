@@ -1,3 +1,4 @@
+package syntax;
 import java.util.*;
 
 public class StmtSequence extends Statement {

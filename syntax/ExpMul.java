@@ -1,3 +1,4 @@
+package syntax;
 public class ExpMul extends Exp {
 
   Exp exp1, exp2;

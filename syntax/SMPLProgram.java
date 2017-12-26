@@ -1,3 +1,4 @@
+package syntax;
 public class SMPLProgram extends Exp {
     StmtSequence seq;
 
