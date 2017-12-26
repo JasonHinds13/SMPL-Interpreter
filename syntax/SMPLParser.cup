@@ -85,7 +85,7 @@ terminal String VARIABLE;
 terminal Character CHARACTER;
 
 /* Non terminals */
-non terminal ArithProgram program;
+non terminal SMPLProgram program;
 non terminal StmtSequence stmtList;
 non terminal Statement stmt;
 non terminal StmtDefinition definition;
