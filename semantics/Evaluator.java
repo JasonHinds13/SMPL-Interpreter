@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.Math;
 
 public class Evaluator implements Visitor {
     /* For this visitor, the argument passed to all visit
@@ -14,9 +15,9 @@ public class Evaluator implements Visitor {
 	result = new Integer(0);
     }
 
-    public Object visitArithProgram(ArithProgram p,
+    public Object visitSMPLProgram(ArithProgram p,
 				    Object arg)
-	throws Exception 
+	throws Exception
     {
 	result = (Integer) p.getSeq().visit(this, arg);
 	return result;
@@ -128,6 +129,15 @@ public class Evaluator implements Visitor {
 	val2 = (Integer) exp.getExpR().visit(this, arg);
 	return new Integer(val1.intValue() %
 			   val2.intValue());
+    }
+
+    public Object visitExpPow(ExpExpt exp, Object arg)
+	throws Exception
+    {
+	Integer val1, val2;
+	val1 = (Integer) exp.getExpL().visit(this, arg);
+	val2 = (Integer) exp.getExpR().visit(this, arg);
+	return new Integer(Math.pow(val1.intValue(), val2.intValue()));
     }
 
     public Object visitExpLit(ExpLit exp, Object arg)

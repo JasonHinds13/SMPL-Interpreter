@@ -13,7 +13,7 @@ public class SMPLProgram extends Exp {
     public Object visit(Visitor v, Object arg)
 	throws Exception
     {
-	return v.visitArithProgram(this, arg);
+	return v.visitSMPLProgram(this, arg);
     }
 
     public String toString() {

@@ -1,7 +1,7 @@
 public interface Visitor {
 
     // program
-    public Object visitArithProgram(ArithProgram p,
+    public Object visitSMPLProgram(ArithProgram p,
 				    Object arg)
 	throws Exception;
 
@@ -26,6 +26,8 @@ public interface Visitor {
 	throws Exception;
     public Object visitExpDiv(ExpDiv exp, Object arg)
 	throws Exception;
+  public Object visitExpPow(ExpExpt exp, Object arg)
+throws Exception;
     public Object visitExpMod(ExpMod exp, Object arg)
 	throws Exception;
     public Object visitExpLit(ExpLit exp, Object arg)
