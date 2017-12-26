@@ -15,7 +15,7 @@ public class ExpIsEqual extends Exp {
   return exp2;
     }
     public Boolean isEqual(){
-        return object1 == object2;
+        return exp1 == exp2;
     }
 
     public Object visit(Visitor v, Object arg)
