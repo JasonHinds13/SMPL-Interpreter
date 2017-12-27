@@ -92,6 +92,7 @@ non terminal Binding binding;
 // non terminal Print print;
 // non terminal Read read;
 // non terminal ReadInt readint;
+// non terminal IfStatement ifstatement;
 
 non terminal Exp expression;
 non terminal Exp term;
@@ -117,6 +118,7 @@ stmt ::= definition:d {: RESULT = d; :} |
 	 letStmt:l {: RESULT = l; :} |
 	 definition:d {: RESULT = d; :} |
 	 expression:e {: RESULT = new Statement(e); :} |
+	 ifstatement:i {: RESULT = i :} |
 	 print:p {: RESULT = p; :} |
 	 println:p {: RESULT = p :} |
 	 read:r {: RESULT = r; :} |
@@ -157,6 +159,13 @@ lazystmt ::= LAZY LPAREN expression:e RPAREN {:
 call ::= CALL LPAREN procedure:p COMMA list:l RPAREN {:
 	     //RESULT = new CALL(p, l);
 	  :};
+
+ifstatement ::= IF expression:e THEN expression:a {:
+	     //RESULT = new IfStatement(e, a, null);
+	  :} |
+		IF expression:e THEN expression:a ELSE expression:r {:
+			//RESULT = new IfStatement(e, a, r);
+		:};
 
 print ::= PRINT LPAREN expression:e RPAREN {:
 	     //RESULT = new Print(e);
