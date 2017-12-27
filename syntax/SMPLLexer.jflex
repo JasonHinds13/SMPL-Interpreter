@@ -91,8 +91,6 @@ hex = #x[0-9a-fA-F]+
 <YYINITIAL>	"="	{return new Symbol(sym.EQUAL);}
 <YYINITIAL> ":=" {return new Symbol(sym.ASSIGN);}
 
-<YYINITIAL>	"eqv?"	{return new Symbol(sym.IFEQV);}
-<YYINITIAL>	"equal?"	{return new Symbol(sym.IFEQUAL);}
 
 <YYINITIAL> "<" {return new Symbol(sym.LT);}
 <YYINITIAL> ">" {return new Symbol(sym.GT);}
