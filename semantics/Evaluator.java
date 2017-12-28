@@ -81,6 +81,39 @@ public class Evaluator implements Visitor {
 	return body.visit(this, newEnv);
     }
 
+
+
+    public Object visitCall(Call call, Object arg) throws Exception {
+      //
+    }
+
+    public Object visitIfStatement(IfStatement ifs, Object arg)
+    throws Exception {
+      //
+    }
+
+    public Object visitLazyStatement(LazyStatement ls, Object arg)
+    throws Exception {
+      //
+    }
+    public Object visitPrint(Print print, Object arg) throws Exception {
+      //
+     }
+
+    public Object visitPrintLn(PrintLn println, Object arg) throws Exception {
+      //
+    }
+
+    public Object visitRead(Read read, Object arg) throws Exception {
+      //
+    }
+
+    public Object visitReadInt(ReadInt readint, Object arg) throws Exception {
+      //
+    }
+
+
+
     public Object visitExpAdd(ExpAdd exp, Object arg)
 	throws Exception
     {
