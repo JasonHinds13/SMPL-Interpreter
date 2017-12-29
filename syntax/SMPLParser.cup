@@ -182,9 +182,19 @@ readint ::= READINT LPAREN RPAREN {:
 			 RESULT = new ReadInt();
 		:};
 
-//elist :: = {: RESULT = :} | {: RESULT = :};
+expListE ::= expList:lst {: RESULT = lst; :} |
+                  empty {: RESULT = new ArrayList<>(); :};
 
-list ::= LSQUARE COLON expList:elist COLON RSQUARE {: RESULT = new List(elist); :};
+expList ::= expList:lst COMMA expression:exp {: lst.add(exp); RESULT = lst; :} |
+                expression:exp {:
+									ArrayList<Exp> lst = new ArrayList<Exp>();
+                  lst.add(exp);
+                  RESULT = lst;
+                :};
+
+list ::= LSQUARE COLON expList:elist COLON RSQUARE {:
+	        RESULT = new List(elist);
+				:} | nlist:l {: RESULT = l; :};
 
 nlist ::= NIL {: RESULT = List(); :};
 
