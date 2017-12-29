@@ -1,0 +1,206 @@
+package smpl.syntax;
+
+import java_cup.runtime.*;
+import java.io.*;
+import java.util.*;
+
+/* Preliminaries to set up and use the scanner.  */
+parser code {:
+		SMPLLexer lexer;
+
+		public SMPLParser(SMPLLexer l) {
+		    // As of CUP v0.11, need to pass Lexer to superclass
+		    super(l);
+		    lexer = l;
+		}
+
+		public void report_error(String message, Object info) {
+		    System.err.println(message);
+		}
+
+		public void syntax_error(Symbol cur_token) {
+		    System.err.print("Line " + lexer.getLine() +
+				     " near char " + lexer.getChar() + ": ");
+		    report_error("Syntax error", cur_token);
+		    System.err.println ("Last token read is " +
+					 lexer.getText());
+		}
+	    :};
+
+init with {:
+	  :};
+
+scan with {:
+		try {
+		    return lexer.next_token();
+		} catch (java.io.IOException ioe) {
+		    System.out.println("Line " + lexer.getLine() + ", pos " +
+				       lexer.getColumn() +
+				       ": Unrecognised token <" +
+				       lexer.getText() + ">");
+		    System.out.println(ioe.getMessage());
+		    throw ioe;
+		}
+	  :};
+
+/* Terminals (tokens returned by the scanner). */
+
+// special symbols
+terminal ASSIGN;
+terminal LPAREN, RPAREN, LBRACE, RBRACE, LSQUARE, RSQUARE, COMMA, COLON, AT;
+
+// arithmetic operators and relational operators
+terminal PLUS, MINUS, MUL, DIV, MOD, HAT, EQUAL, LT, GT, LE, GE, NE;
+
+// binary operators
+terminal AMP, PIPE, TILDE;
+
+// logical operators
+terminal AND, OR, NOT;
+
+// boolean constants and nil
+terminal TRUE, FALSE, NIL;
+
+// keywords
+terminal IF, DEF, LET;
+terminal PROC, CALL, READ, ELSE, LAZY, CASE, PRINT, PRINTLN, READINT;
+
+
+// terminals with values
+terminal String BIN;
+terminal String HEX;
+terminal Double FLOAT;
+terminal String STRING;
+terminal Integer INTEGER;
+terminal String VARIABLE;
+terminal Character CHARACTER;
+
+/* Non terminals */
+non terminal SMPLProgram program;
+non terminal StmtSequence stmtList;
+non terminal Statement stmt;
+non terminal StmtDefinition definition;
+
+non terminal StmtLet letStmt;
+non terminal ArrayList bindings;
+non terminal ArrayList bindingsAux;
+non terminal Binding binding;
+
+non terminal LazyStatement lazystmt;
+// non terminal Procedure procedure;
+non terminal Call call;
+// non terminal List list;
+non terminal PrintLn println;
+non terminal Print print;
+non terminal Read read;
+non terminal ReadInt readint;
+non terminal IfStatement ifstatement;
+
+non terminal Exp expression;
+non terminal Exp term;
+non terminal Exp factor;
+non terminal Exp power;
+non terminal empty;
+
+/* Grammar rules */
+
+program ::= stmtList:s {: RESULT = new SMPLProgram(s); :};
+
+stmtList ::= stmtList:lst stmt:s {:
+		lst.add(s);
+		RESULT = lst;
+		:} |
+	     stmt:s {:
+		RESULT = new StmtSequence(s);
+		:};
+
+stmt ::= definition:d {: RESULT = d; :} |
+		 call:c {: RESULT = c; :} |
+         lazystmt:l {: RESULT = l; :} |
+	     letStmt:l {: RESULT = l; :} |
+	     definition:d {: RESULT = d; :} |
+	     expression:e {: RESULT = new Statement(e); :} |
+	     ifstatement:i {: RESULT = i :} |
+	     print:p {: RESULT = p; :} |
+	     println:p {: RESULT = p :} |
+	     read:r {: RESULT = r; :} |
+	     readint:r {: RESULT = r :};
+
+letStmt ::= LET LPAREN bindings:bs RPAREN LBRACE stmtList:sl RBRACE {:
+			RESULT = new StmtLet(bs, sl);
+		:};
+
+binding ::= VARIABLE:v EQUAL expression:e {:
+		RESULT = new Binding(v, e);
+	:};
+
+bindings ::= binding:b bindingsAux:bl {:
+	    	  bl.add(b);
+		  RESULT = bl;
+	     :} |
+		empty {: RESULT = new ArrayList(); :};
+
+bindingsAux ::= COMMA binding:b bindingsAux:bl {:
+	     	       bl.add(b);
+	     	       RESULT = bl;
+		:} |
+		empty {: RESULT = new ArrayList<Bindings>(); :};
+
+definition ::= DEF VARIABLE:v expression:e {:
+		   RESULT = new StmtDefinition(v, e);
+		:};
+
+lazystmt ::= LAZY LPAREN expression:e RPAREN {:
+	     RESULT = new LazyStatement(e);
+	  :};
+
+call ::= CALL LPAREN procedure:p COMMA list:l RPAREN {:
+	     RESULT = new CALL(p, l);
+	  :};
+
+ifstatement ::= IF expression:e THEN expression:a ELSE expression:r {:
+	     RESULT = new IfStatement(e, a, r);
+	  :} |
+		IF expression:e THEN expression:a {:
+			RESULT = new IfStatement(e, a);
+		:};
+
+print ::= PRINT LPAREN expression:e RPAREN {:
+	     RESULT = new Print(e);
+	  :};
+
+println ::= PRINT LPAREN expression:e RPAREN {:
+			 RESULT = new PrintLn(e);
+		:};
+
+read ::= READ LPAREN RPAREN {:
+			 RESULT = new Read();
+		:};
+
+readint ::= READINT LPAREN RPAREN {:
+			 RESULT = new ReadInt();
+		:};
+
+expression ::= 	expression:e PLUS term:t {:
+			RESULT = new ExpAdd(e, t); :} |
+		expression:e MINUS term:t {:
+			RESULT = new ExpSub(e, t); :} |
+		term:t {: RESULT = t; :};
+
+term ::= term:t MUL factor:f {:
+		RESULT = new ExpMul(t, f); :} |
+	 term:t DIV factor:f {:
+		RESULT = new ExpDiv(t, f); :} |
+	 term:t MOD factor:f {:
+		RESULT = new ExpMod(t, f); :} |
+	 factor:f {: RESULT = f; :} |
+	 power:p {: RESULT = p :};
+
+power ::= factor:f HAT power:p {: RESULT = new ExpExpt(f, p); :} |
+          factor:f {: RESULT = f; :};
+
+factor ::= INTEGER:ilit {: RESULT = new ExpLit(ilit); :} |
+	   VARIABLE:var {: RESULT = new ExpVar(var); :} |
+	   LPAREN expression:e RPAREN {: RESULT = e; :}	;
+
+empty ::= ;

@@ -1,0 +1,16 @@
+//quicksort
+def quicksort proc(vector,func)
+{
+    if (vector==1) 
+    then 
+    vector;
+    else
+    
+    def right=0;
+    def left=size(vector);
+    def pivot=(right +left)/2
+    
+    
+    
+
+}
