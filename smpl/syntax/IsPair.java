@@ -1,21 +1,21 @@
-package syntax;
+package smpl.syntax;
 
 import syntax.Pair;
 
-public class isPair extends Statement {
+public class IsPair extends Statement {
     private Pair pair;
 
-    public isPair(Pair p) {
+    public IsPair(Pair p) {
         pair = p;
     }
 
-    public isPair getPair() {
+    public IsPair getPair() {
         return pair;
     }
 
     @Override
     public Object visit(Visitor v, Object arg) throws Exception
     {
-	       return v.visitisPair(this, arg);
+	       return v.visitIsPair(this, arg);
     }
 }

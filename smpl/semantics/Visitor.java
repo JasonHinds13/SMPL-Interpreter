@@ -1,4 +1,8 @@
+<<<<<<< HEAD:smpl/semantics/Visitor.java
 package smpl.semantics;
+=======
+package semantics;
+>>>>>>> c9c47d9e9b73899a3305f930d1b3021ae490567a:semantics/Visitor.java
 
 public interface Visitor {
 

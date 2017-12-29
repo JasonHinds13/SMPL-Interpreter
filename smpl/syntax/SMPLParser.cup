@@ -86,10 +86,13 @@ non terminal ArrayList bindings;
 non terminal ArrayList bindingsAux;
 non terminal Binding binding;
 
+non terminal ArrayList expList;
+
 non terminal LazyStatement lazystmt;
 // non terminal Procedure procedure;
 non terminal Call call;
-// non terminal List list;
+non terminal List list;
+non terminal List nlist;
 non terminal PrintLn println;
 non terminal Print print;
 non terminal Read read;
@@ -180,6 +183,22 @@ read ::= READ LPAREN RPAREN {:
 readint ::= READINT LPAREN RPAREN {:
 			 RESULT = new ReadInt();
 		:};
+
+expListE ::= expList:lst {: RESULT = lst; :} |
+                  empty {: RESULT = new ArrayList<>(); :};
+
+expList ::= expList:lst COMMA expression:exp {: lst.add(exp); RESULT = lst; :} |
+                expression:exp {:
+									ArrayList<Exp> lst = new ArrayList<Exp>();
+                  lst.add(exp);
+                  RESULT = lst;
+                :};
+
+list ::= LSQUARE COLON expList:elist COLON RSQUARE {:
+	        RESULT = new List(elist);
+				:} | nlist:l {: RESULT = l; :};
+
+nlist ::= NIL {: RESULT = List(); :};
 
 expression ::= 	expression:e PLUS term:t {:
 			RESULT = new ExpAdd(e, t); :} |
