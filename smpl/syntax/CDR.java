@@ -1,6 +1,6 @@
-package syntax;
+package smpl.syntax;
 
-import syntax.Pair;
+import smpl.syntax.Pair;
 
 public class CDR extends Statement {
     private Pair pair;

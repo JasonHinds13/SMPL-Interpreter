@@ -3,9 +3,7 @@ package smpl.values;
 import java.util.ArrayList;
 
 public class Vector extends Value<ArrayList<Value>>  {
-
-
-    
+	
 	protected ArrayList<SMPLValue> vector;
 
 	public Vector(ArrayList<SMPLValue> vals) {

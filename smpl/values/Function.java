@@ -1,7 +1,8 @@
-
 package smpl.values;
 
-import smpl.*;
+import smpl.semantics.*;
+import smpl.syntax.*;
+import smpl.values.*;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
 package smpl.syntax;
 
-import syntax.Pair;
+import smpl.syntax.Pair;
 
 public class IsPair extends Statement {
     private Pair pair;
