@@ -1,4 +1,7 @@
 package smpl.syntax;
+
+import smpl.values.*;
+import smpl.semantics.*;
 import java.util.*;
 
 public class StmtSequence extends Statement {
@@ -23,7 +26,7 @@ public class StmtSequence extends Statement {
 	return this;
     }
 
-    public Object visit(Visitor v, Object arg) 
+    public Object visit(Visitor v, Object arg)
 	throws Exception
     {
 	return v.visitStmtSequence(this, arg);
@@ -41,4 +44,3 @@ public class StmtSequence extends Statement {
     }
 
 }
-

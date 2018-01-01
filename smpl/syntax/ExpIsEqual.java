@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class ExpIsEqual extends Exp {
 
   Exp exp1, exp2;

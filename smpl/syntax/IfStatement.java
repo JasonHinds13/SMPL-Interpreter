@@ -1,21 +1,23 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class IfStatement extends Statement {
 
     private Exp condition;
     private Exp body;
-    private Exp else;
+    private Exp els;
 
     public IfStatement(Exp cond, Exp bod, Exp other) {
         this.condition = cond;
         this.body = bod;
-        this.else = other;
+        this.els = other;
     }
 
     public IfStatement(Exp cond, Exp bod) {
         this.condition = cond;
         this.body = bod;
-        this.else = null;
+        this.els = null;
     }
 
     public Exp getCond() {
@@ -27,7 +29,7 @@ public class IfStatement extends Statement {
     }
 
     public Exp getElse(){
-        return else;
+        return els;
     }
 
     @Override

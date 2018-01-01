@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class ExpExpt extends Exp {
 
     Exp exp1, exp2;
@@ -7,6 +9,14 @@ public class ExpExpt extends Exp {
     public ExpExpt(Exp e1, Exp e2) {
 	exp1 = e1;
 	exp2 = e2;
+    }
+
+    public Exp getExpL() {
+	return exp1;
+    }
+
+    public Exp getExpR() {
+	return exp2;
     }
 
     public Object visit(Visitor v, Object arg)

@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class PairExp extends Exp {
     private Exp e,e2;
 

@@ -118,17 +118,17 @@ stmtList ::= stmtList:lst stmt:s {:
 		RESULT = new StmtSequence(s);
 		:};
 
-stmt ::= 
+stmt ::=
 		 call:c {: RESULT = c; :} |
          lazystmt:l {: RESULT = l; :} |
 	     letStmt:l {: RESULT = l; :} |
 	     definition:d {: RESULT = d; :} |
 	     expression:e {: RESULT = new Statement(e); :} |
-	     ifstatement:i {: RESULT = i :} |
+	     ifstatement:i {: RESULT = i; :} |
 	     print:p {: RESULT = p; :} |
-	     println:p {: RESULT = p :} |
+	     println:p {: RESULT = p; :} |
 	     read:r {: RESULT = r; :} |
-	     readint:r {: RESULT = r :};
+	     readint:r {: RESULT = r; :};
 
 letStmt ::= LET LPAREN bindings:bs RPAREN LBRACE stmtList:sl RBRACE {:
 			RESULT = new StmtLet(bs, sl);
@@ -159,12 +159,12 @@ lazystmt ::= LAZY LPAREN expression:e RPAREN {:
 	  :};
 
 call ::= CALL LPAREN proc:p COMMA list:l RPAREN {:
-	     RESULT = new CALL(p, l);
+	     RESULT = new Call(p, l);
 	  :};
-	  
-proc ::= PROC LPAREN LSQUARE expListE:param RSQUARE RPAREN stmtList:st  {: 
+
+proc ::= PROC LPAREN LSQUARE expListE:param RSQUARE RPAREN stmtList:st  {:
              RESULT = new Procedure(param, st); :} |
-         PROC LPAREN expListE:el RPAREN stmtList:sl {: 
+         PROC LPAREN expListE:el RPAREN stmtList:sl {:
              RESULT = Procedure(el, sl); :} |
          PROC VARIABLE:v stmtList:body {: RESULT = Procedure(v, body); :};
 
@@ -220,12 +220,12 @@ term ::= term:t MUL factor:f {:
 	 term:t MOD factor:f {:
 		RESULT = new ExpMod(t, f); :} |
 	 factor:f {: RESULT = f; :} |
-	 power:p {: RESULT = p :};
+	 power:p {: RESULT = p; :};
 
 factor ::= INTEGER:ilit {: RESULT = new ExpLit(ilit); :} |
 	   VARIABLE:var {: RESULT = new ExpVar(var); :} |
 	   LPAREN expression:e RPAREN {: RESULT = e; :}	;
-	   
+
 power ::= factor:f HAT power:p {: RESULT = new ExpExpt(f, p); :};
 
 empty ::= ;

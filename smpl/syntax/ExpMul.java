@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class ExpMul extends Exp {
 
   Exp exp1, exp2;
@@ -26,4 +28,3 @@ public class ExpMul extends Exp {
     return exp1.toString() + " * " + exp2.toString();
   }
 }
-

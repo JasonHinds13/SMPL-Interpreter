@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class StmtDefinition extends Statement {
 
     String var;
@@ -18,7 +20,7 @@ public class StmtDefinition extends Statement {
 	return exp;
     }
 
-    public Object visit(Visitor v, Object arg) 
+    public Object visit(Visitor v, Object arg)
 	throws Exception
     {
 	return v.visitStmtDefinition(this, arg);

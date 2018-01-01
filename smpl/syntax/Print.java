@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class Print extends Statement {
     private Exp printstr;
 

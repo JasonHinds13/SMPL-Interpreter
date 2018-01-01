@@ -1,9 +1,11 @@
 package smpl.semantics;
 
+import smpl.syntax.*;
+
 public interface Visitor {
 
     // program
-    public Object visitSMPLProgram(ArithProgram p,
+    public Object visitSMPLProgram(SMPLProgram p,
 				    Object arg)
 	throws Exception;
 
@@ -26,6 +28,7 @@ public interface Visitor {
   public Object visitPrintLn(PrintLn println, Object arg) throws Exception;
   public Object visitRead(Read read, Object arg) throws Exception;
   public Object visitReadInt(ReadInt readint, Object arg) throws Exception;
+  public Object visitProcExp(Procedure proc, Object arg) throws Exception;
 
 
     // expressions

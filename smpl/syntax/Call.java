@@ -1,5 +1,8 @@
 package smpl.syntax;
 
+import smpl.values.*;
+import smpl.semantics.*;
+
 public class Call extends Statement {
 
     private Procedure proc;

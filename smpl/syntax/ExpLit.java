@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class ExpLit extends Exp {
 
   int val;
@@ -12,7 +14,7 @@ public class ExpLit extends Exp {
 	return val;
     }
 
-    public Object visit(Visitor v, Object arg) 
+    public Object visit(Visitor v, Object arg)
     throws Exception
     {
 	return v.visitExpLit(this, arg);
@@ -22,4 +24,3 @@ public class ExpLit extends Exp {
     return Integer.toString(val);
   }
 }
-

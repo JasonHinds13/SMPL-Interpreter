@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class ExpIsEqv extends Exp {
 
   Exp exp1, exp2;

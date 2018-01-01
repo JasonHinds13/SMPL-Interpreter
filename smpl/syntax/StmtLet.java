@@ -1,4 +1,7 @@
 package smpl.syntax;
+
+import smpl.values.*;
+import smpl.semantics.*;
 import java.util.ArrayList;
 
 public class StmtLet extends Statement {
@@ -19,7 +22,7 @@ public class StmtLet extends Statement {
     }
 
     public Object visit(Visitor v, Object arg) throws Exception {
-        return v.visitStmtList(this, arg);
+        return v.visitStmtLet(this, arg);
     }
 
     public String toString() {

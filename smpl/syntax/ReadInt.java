@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.semantics.*;
+
 public class ReadInt extends Statement {
 
     public ReadInt() {

@@ -1,16 +1,16 @@
-import smpl.values;
+package smpl.values;
 
-public class Value<V>
+public class Value<v>
 {
-    public static final Value NO_VALUE = new Value <String> (NO_VALUE);
+    public static final Value NO_VALUE = null;
     protected V val;
-    
+
     public Value(V val) {
-        this.value = value;
+        this.val = val;
     }
 
     public V getVal()
     {
-        return value;
+        return val;
     }
 }

@@ -1,5 +1,7 @@
 package smpl.syntax;
 
+import smpl.values.*;
+import smpl.semantics.*;
 import smpl.syntax.Pair;
 
 public class CAR extends Statement {

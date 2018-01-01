@@ -11,7 +11,7 @@ public class Pair extends Value<ArrayList<Value>>  {
 		pair[1] = v2;
 	}
 
-    public Vector() {
+        public Pair() {
 		this(null, null);
 	}
 

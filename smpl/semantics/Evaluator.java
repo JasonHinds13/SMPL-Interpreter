@@ -3,6 +3,9 @@ package smpl.semantics;
 import java.util.*;
 import java.lang.Math;
 
+import smpl.syntax.*;
+import smpl.values.*;
+
 public class Evaluator implements Visitor {
     /* For this visitor, the argument passed to all visit
        methods will be the environment object that used to
@@ -17,7 +20,7 @@ public class Evaluator implements Visitor {
 	result = new Integer(0);
     }
 
-    public Object visitSMPLProgram(ArithProgram p,
+    public Object visitSMPLProgram(SMPLProgram p,
 				    Object arg)
 	throws Exception
     {
@@ -114,6 +117,10 @@ public class Evaluator implements Visitor {
       //
     }
 
+    public Object visitProcExp(Procedure proc, Object arg) throws Exception {
+      //
+    }
+
 
 
     public Object visitExpAdd(ExpAdd exp, Object arg)
@@ -172,7 +179,7 @@ public class Evaluator implements Visitor {
 	Integer val1, val2;
 	val1 = (Integer) exp.getExpL().visit(this, arg);
 	val2 = (Integer) exp.getExpR().visit(this, arg);
-	return new Integer(Math.pow(val1.intValue(), val2.intValue()));
+	return new Double(Math.pow(val1.intValue(), val2.intValue()));
     }
 
     public Object visitExpLit(ExpLit exp, Object arg)

@@ -3,8 +3,8 @@ package smpl.sys;
 import java_cup.runtime.*;
 import java.io.*;
 
-import semantics.*;
-import syntax.*;
+import smpl.semantics.*;
+import smpl.syntax.*;
 
 public class Repl {
 
@@ -43,5 +43,5 @@ public class Repl {
         System.out.println(e.getMessage());
       }
     }
-    
+
 }

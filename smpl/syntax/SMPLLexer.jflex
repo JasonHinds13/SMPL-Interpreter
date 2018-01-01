@@ -140,7 +140,7 @@ hex = #x[0-9a-fA-F]+
 <YYINITIAL> "println" {return new Symbol(sym.PRINTLN);}
 <YYINITIAL> "read" {return new Symbol(sym.READ);}
 <YYINITIAL> "readint" {return new Symbol(sym.READINT);}
-<YYINITIAL> "struct" {return new Symbol(sym.STRUCT,yytext();} //Added by komoy
+<YYINITIAL> "struct" {return new Symbol(sym.STRUCT,yytext());} //Added by komoy
 
 <YYINITIAL>    {num}+ {
 	       // INTEGER
