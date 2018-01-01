@@ -132,6 +132,7 @@ hex = #x[0-9a-fA-F]+
 <YYINITIAL> "def" {return new Symbol(sym.DEF);}
 <YYINITIAL> "if" {return new Symbol(sym.IF);}
 <YYINITIAL> "else" {return new Symbol(sym.ELSE);}
+<YYINITIAL> "then" {return new Symbol(sym.THEN);}
 <YYINITIAL> "lazy" {return new Symbol(sym.LAZY);}
 <YYINITIAL> "let" {return new Symbol(sym.LET);}
 <YYINITIAL> "case" {return new Symbol(sym.CASE);}

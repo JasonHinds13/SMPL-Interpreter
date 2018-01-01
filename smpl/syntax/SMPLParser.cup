@@ -63,7 +63,7 @@ terminal TRUE, FALSE, NIL;
 
 // keywords
 terminal IF, DEF, LET;
-terminal PROC, CALL, READ, ELSE, LAZY, CASE, PRINT, PRINTLN, READINT;
+terminal PROC, CALL, READ, ELSE, THEN, LAZY, CASE, PRINT, PRINTLN, READINT;
 
 
 // terminals with values
@@ -87,9 +87,10 @@ non terminal ArrayList bindingsAux;
 non terminal Binding binding;
 
 non terminal ArrayList expList;
+non terminal ArrayList expListE;
 
 non terminal LazyStatement lazystmt;
-// non terminal Procedure procedure;
+non terminal Procedure proc;
 non terminal Call call;
 non terminal List list;
 non terminal List nlist;
@@ -117,7 +118,7 @@ stmtList ::= stmtList:lst stmt:s {:
 		RESULT = new StmtSequence(s);
 		:};
 
-stmt ::= definition:d {: RESULT = d; :} |
+stmt ::= 
 		 call:c {: RESULT = c; :} |
          lazystmt:l {: RESULT = l; :} |
 	     letStmt:l {: RESULT = l; :} |
@@ -157,9 +158,15 @@ lazystmt ::= LAZY LPAREN expression:e RPAREN {:
 	     RESULT = new LazyStatement(e);
 	  :};
 
-call ::= CALL LPAREN procedure:p COMMA list:l RPAREN {:
+call ::= CALL LPAREN proc:p COMMA list:l RPAREN {:
 	     RESULT = new CALL(p, l);
 	  :};
+	  
+proc ::= PROC LPAREN LSQUARE expListE:param RSQUARE RPAREN stmtList:st  {: 
+             RESULT = new Procedure(param, st); :} |
+         PROC LPAREN expListE:el RPAREN stmtList:sl {: 
+             RESULT = Procedure(el, sl); :} |
+         PROC VARIABLE:v stmtList:body {: RESULT = Procedure(v, body); :};
 
 ifstatement ::= IF expression:e THEN expression:a ELSE expression:r {:
 	     RESULT = new IfStatement(e, a, r);
@@ -172,7 +179,7 @@ print ::= PRINT LPAREN expression:e RPAREN {:
 	     RESULT = new Print(e);
 	  :};
 
-println ::= PRINT LPAREN expression:e RPAREN {:
+println ::= PRINTLN LPAREN expression:e RPAREN {:
 			 RESULT = new PrintLn(e);
 		:};
 
@@ -215,11 +222,10 @@ term ::= term:t MUL factor:f {:
 	 factor:f {: RESULT = f; :} |
 	 power:p {: RESULT = p :};
 
-power ::= factor:f HAT power:p {: RESULT = new ExpExpt(f, p); :} |
-          factor:f {: RESULT = f; :};
-
 factor ::= INTEGER:ilit {: RESULT = new ExpLit(ilit); :} |
 	   VARIABLE:var {: RESULT = new ExpVar(var); :} |
 	   LPAREN expression:e RPAREN {: RESULT = e; :}	;
+	   
+power ::= factor:f HAT power:p {: RESULT = new ExpExpt(f, p); :};
 
 empty ::= ;
